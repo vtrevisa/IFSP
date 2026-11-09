@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Detalhes da Tarefa</title>
+</head>
+<body>
+
+    <h1>Detalhes da Tarefa</h1>
+    
+    <hr>
+    
+    <h2>{{ tarefa.titulo }}</h2>
+    
+    <p><strong>Descrição:</strong> {{ tarefa.descricao|default:"Sem descrição." }}</p>
+    
+    <!-- get_prioridade_display mostra o texto bonitinho (Alta, Média, Baixa) -->
+    <p><strong>Prioridade:</strong> {{ tarefa.get_prioridade_display }}</p>
+    
+    <p>
+        <strong>Status:</strong> 
+        {% if tarefa.concluida %}
+            Concluída
+        {% else %}
+            Pendente
+        {% endif %}
+    </p>
+    
+    <!-- O filtro |date formata a data e hora -->
+    <p><strong>Criada em:</strong> {{ tarefa.criada_em|date:"d/m/Y H:i" }}</p>
+    
+    <hr>
+
+    <!-- Links de navegação -->
+    <a href="{% url 'editar_tarefa' tarefa.pk %}">Editar Tarefa</a> | 
+    <a href="{% url 'excluir_tarefa' tarefa.pk %}">Excluir Tarefa</a>
+
+    <br><br>
+
+    <!-- O PDF exige que a alternância de status seja feita via POST -->
+    <form method="post" action="{% url 'alternar_tarefa' tarefa.pk %}">
+        {% csrf_token %}
+        <button type="submit">
+            {% if tarefa.concluida %}
+                Marcar como Pendente
+            {% else %}
+                Marcar como Concluída
+            {% endif %}
+        </button>
+    </form>
+
+    <br>
+    <a href="{% url 'lista_tarefas' %}">Voltar para a lista</a>
+
+</body>
+</html>

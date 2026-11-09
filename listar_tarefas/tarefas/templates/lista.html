@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo_pagina }}</title>
+</head>
+<body>
+
+    <h1>{{ titulo_pagina }}</h1>
+
+    <a href="{% url 'criar_tarefa' %}">+ Nova Tarefa</a><br><br>
+    <div>
+        <strong>Filtrar: </strong>
+        <a href="{% url 'lista_tarefas' %}">Todas</a> | 
+        <a href="{% url 'lista_tarefas' %}?status=pendentes">Pendentes</a> | 
+        <a href="{% url 'lista_tarefas' %}?status=concluidas">Concluídas</a>
+    </div>
+
+    <br>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Título</th>
+                <th>Prioridade</th>
+                <th>Status</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for tarefa in tarefas %}
+                <tr>
+                    <td>{{ tarefa.titulo }}</td>
+                    <td>{{ tarefa.get_prioridade_display }}</td>
+                    <td>
+                        {% if tarefa.concluida %}
+                            Concluída
+                        {% else %}
+                            Pendente
+                        {% endif %}
+                    </td>
+                    <td>
+                        <a href="{% url 'detalhe_tarefa' tarefa.pk %}">Detalhes</a> | 
+                        <a href="{% url 'editar_tarefa' tarefa.pk %}">Editar</a> | 
+                        <a href="{% url 'excluir_tarefa' tarefa.pk %}">Excluir</a>
+                    </td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">Nenhuma tarefa encontrada.</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html>

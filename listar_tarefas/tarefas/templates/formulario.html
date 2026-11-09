@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ titulo_formulario }}</title>
+</head>
+<body>
+    <h1>{{ titulo_formulario }}</h1>
+
+    <!-- O formulário precisa do método POST -->
+    <form method="post">
+        <!-- Essa tag é OBRIGATÓRIA no Django -->
+        {% csrf_token %}
+        
+        <!-- Isso vai gerar os campos de título, descrição e prioridade automaticamente -->
+        {{ form.as_p }}
+        
+        <button type="submit">Salvar Tarefa</button>
+        <a href="{% url 'lista_tarefas' %}">Cancelar</a>
+    </form>
+</body>
+</html>
