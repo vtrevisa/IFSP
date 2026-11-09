@@ -3,20 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ titulo_formulario }}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <h1>{{ titulo_formulario }}</h1>
+<body class="bg-light">
 
-    <!-- O formulário precisa do método POST -->
-    <form method="post">
-        <!-- Essa tag é OBRIGATÓRIA no Django -->
-        {% csrf_token %}
-        
-        <!-- Isso vai gerar os campos de título, descrição e prioridade automaticamente -->
-        {{ form.as_p }}
-        
-        <button type="submit">Salvar Tarefa</button>
-        <a href="{% url 'lista_tarefas' %}">Cancelar</a>
-    </form>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card shadow">
+                    <div class="card-header bg-dark text-white">
+                        <h3 class="mb-0">{{ titulo_formulario }}</h3>
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <!-- Campo Título -->
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Título</label>
+                                <input type="text" name="titulo" class="form-control" value="{{ form.titulo.value|default:'' }}" required>
+                                {{ form.titulo.errors }}
+                            </div>
+
+                            <!-- Campo Descrição -->
+                            <div class="mb-3">
+                                <label class="form-label fw-bold">Descrição</label>
+                                <textarea name="descricao" class="form-control" rows="3">{{ form.descricao.value|default:'' }}</textarea>
+                                {{ form.descricao.errors }}
+                            </div>
+
+                            <!-- Campo Prioridade -->
+                            <div class="mb-4">
+                                <label class="form-label fw-bold">Prioridade</label>
+                                <select name="prioridade" class="form-select" required>
+                                    <option value="baixa" {% if form.prioridade.value == 'baixa' %}selected{% endif %}>Baixa</option>
+                                    <option value="media" {% if form.prioridade.value == 'media' %}selected{% endif %}>Média</option>
+                                    <option value="alta" {% if form.prioridade.value == 'alta' %}selected{% endif %}>Alta</option>
+                                </select>
+                                {{ form.prioridade.errors }}
+                            </div>
+
+                            <div class="d-flex justify-content-between">
+                                <a href="{% url 'lista_tarefas' %}" class="btn btn-outline-secondary">Cancelar</a>
+                                <button type="submit" class="btn btn-success">Salvar Tarefa</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 </body>
 </html>
