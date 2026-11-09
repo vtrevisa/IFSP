@@ -1,0 +1,33 @@
+<!-- jogo/templates/jogo/historico.html -->
+<!DOCTYPE html>
+<html lang="pt-br">
+    <head>
+        <meta charset="UTF-8">
+            <title>Pedra Papel Tesoura</title>
+    </head>
+    <body>
+        <h1>Histórico</h1>
+        <ul>
+            {% for partida in partidas %}
+            <li>
+                {{ partida.criada_em }} —
+                Você: {{ partida.jogador }} |
+                PC: {{ partida.computador }} |
+                {{ partida.resultado }}
+            </li>
+            {% empty %}
+            <li>Nenhuma partida ainda.</li>
+            {% endfor %}
+
+            <br>
+            <h2> Total partidas: {{ total }}</h2>
+            <p> Vitorias: {{ vitorias }} | Derrotas: {{ derrotas }} | Empates: {{ empates }}</p>
+
+            <br>
+            <h2> Escolhas </h2>
+            <p> Pedra: {{ pedras }} | Papel: {{ papeis }} | Tesoura: {{ tesouras }}</p>
+
+        </ul>
+        <a href="/"> Voltar </a>
+    </body>
+</html>
