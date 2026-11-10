@@ -16,8 +16,33 @@
         </div>
     </nav>
 
+    <!-- Exibição de Mensagens do Django -->
+    {% if messages %}
+        {% for message in messages %}
+            <!-- Se a mensagem for erro, usa a classe 'danger' do Bootstrap, senão usa a tag padrão -->
+            <div class="alert alert-{% if message.tags == 'error' %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show shadow-sm mt-3" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
     <div class="container">
         <h1 class="mb-4">{{ titulo_pagina }}</h1>
+
+        <!-- Barra de Busca -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <form method="GET" class="d-flex gap-2">
+                    <input type="text" name="busca" class="form-control" placeholder="Buscar por título..." value="{{ busca }}">
+                    <!-- Mantém o filtro de status atual escondido quando faz a busca -->
+                    <input type="hidden" name="status" value="{{ request.GET.status|default:'' }}">
+                    <button type="submit" class="btn btn-primary">Buscar</button>
+                    <!-- Botão para limpar a busca -->
+                    <a href="{% url 'lista_tarefas' %}" class="btn btn-outline-secondary">Limpar</a>
+                </form>
+            </div>
+        </div>
 
         <!-- Filtros -->
         <div class="mb-4">
@@ -26,6 +51,21 @@
                 <a href="{% url 'lista_tarefas' %}" class="btn btn-outline-secondary">Todas</a>
                 <a href="{% url 'lista_tarefas' %}?status=pendentes" class="btn btn-outline-warning">Pendentes</a>
                 <a href="{% url 'lista_tarefas' %}?status=concluidas" class="btn btn-outline-success">Concluídas</a>
+            </div>
+        </div>
+
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="alert alert-warning d-flex justify-content-between align-items-center shadow-sm">
+                    <span class="fw-bold">Tarefas Pendentes:</span>
+                    <span class="badge bg-dark rounded-pill fs-6">{{ total_pendentes }}</span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="alert alert-success d-flex justify-content-between align-items-center shadow-sm">
+                    <span class="fw-bold">Tarefas Concluídas:</span>
+                    <span class="badge bg-dark rounded-pill fs-6">{{ total_concluidas }}</span>
+                </div>
             </div>
         </div>
 
@@ -38,6 +78,7 @@
                             <th>Título</th>
                             <th>Prioridade</th>
                             <th>Status</th>
+                            <th>Prazo</th>
                             <th class="text-center">Ações</th>
                         </tr>
                     </thead>
@@ -62,6 +103,9 @@
                                         <span class="badge bg-secondary">Pendente</span>
                                     {% endif %}
                                 </td>
+                                <td class="align-middle">
+                                    {{ tarefa.prazo|date:"d/m/Y"|default:"-" }}
+                                </td>
                                 <td class="text-center align-middle">
                                     <a href="{% url 'detalhe_tarefa' tarefa.pk %}" class="btn btn-sm btn-primary">Detalhes</a>
                                     <a href="{% url 'editar_tarefa' tarefa.pk %}" class="btn btn-sm btn-warning">Editar</a>
@@ -70,7 +114,7 @@
                             </tr>
                         {% empty %}
                             <tr>
-                                <td colspan="4" class="text-center py-4 text-muted">Nenhuma tarefa encontrada.</td>
+                                <td colspan="5" class="text-center py-4 text-muted">Nenhuma tarefa encontrada.</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -78,6 +122,6 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

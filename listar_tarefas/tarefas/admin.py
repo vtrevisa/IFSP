@@ -4,12 +4,12 @@ from .models import Tarefa
 # Register your models here.
 @admin.register(Tarefa)
 class TarefaAdmin(admin.ModelAdmin):
-    list_display = ('titulo', 'prioridade', 'concluida', 'criada_em')
+    list_display = ('titulo', 'prioridade', 'concluida', 'criada_em', 'prazo')
     list_filter = ('prioridade', 'concluida')
     search_fields = ('titulo',)
     list_per_page = 20
     fieldsets = (
-        ('Informações da tarefa', {'fields': ['titulo', 'descricao', 'prioridade']}),
+        ('Informações da tarefa', {'fields': ['titulo', 'descricao', 'prioridade', 'prazo']}),
         ('Status', {'fields': ['concluida', 'criada_em']})
     )
     readonly_fields = ('criada_em',)
