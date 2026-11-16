@@ -16,6 +16,10 @@ ENV/
 local_settings.py
 
 # Django: banco local, uploads e arquivos coletados
+*.sqlite3
+*.sqlite3-journal
+*.sqlite3-wal
+*.sqlite3-shm
 media/
 staticfiles/
 *.log

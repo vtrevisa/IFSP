@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Título da Página</title>
+    <link rel="stylesheet" href="{% static 'css/estilo.css' %}">
+</head>
+<body class="{{ tema }}">
+  <form method="post" action="{% url 'alternar_tema' %}">
+  {% csrf_token %}
+    <button type="submit">
+      Alternar para modo {{ proximo_tema }}
+    </button>
+  </form>
+
+    <h1>Minha watchlist</h1>
+
+    {% if request.session.nome_visitante %}
+      <p>Olá, {{ request.session.nome_visitante }}!</p>
+      <form method="post" action="{% url 'esquecer_nome' %}">
+      {% csrf_token %}
+        <button type="submit">Esquecer meu nome</button>
+      </form>
+    {% else %}
+      <p>Olá, visitante!</p>
+      <form method="post" action="{% url 'salvar_nome' %}">
+      {% csrf_token %}
+        <label for="nome">Como quer ser chamado?</label>
+        <input id="nome" name="nome" maxlength="40"
+        required>
+        <button type="submit">Lembrar meu nome</button>
+      </form>
+    {% endif %}
+    <br>
+    
+    <a href="{% url 'criar_filme' %}">
+      Adicionar título
+    </a>
+
+    <ul>
+    {% for filme in filmes %}
+      <li>
+        <a href="{% url 'detalhe_filme' filme.pk %}">
+          {{ filme.titulo }}
+        </a>
+        — {{ filme.get_tipo_display }}
+      </li>
+    {% empty %}
+      <li>Nenhum título cadastrado.</li>
+    {% endfor %}
+    </ul>
+</body>
+</html>

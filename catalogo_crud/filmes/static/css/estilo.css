@@ -1,0 +1,8 @@
+body.dia {
+ background-color: white;
+ color: black;
+}
+body.noite {
+ background-color: black;
+ color: white;
+}

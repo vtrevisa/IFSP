@@ -1,0 +1,13 @@
+<h1>Excluir título</h1>
+<p>Excluir "{{ filme.titulo }}"?</p>
+
+<form method="post">
+  {% csrf_token %}
+  <button type="submit">
+    Sim, excluir
+  </button>
+</form>
+
+<a href="{% url 'detalhe_filme' filme.pk %}">
+  Cancelar
+</a>

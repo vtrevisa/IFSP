@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>{{ filme.titulo }}</title>
+</head>
+<body>
+  <h1>{{ filme.titulo }}</h1>
+
+  <p>
+    <strong>Tipo:</strong>
+    {{ filme.get_tipo_display }}
+  </p>
+
+  <p>
+    <strong>Gênero:</strong>
+    {{ filme.genero }}
+  </p>
+
+  <p>
+    <strong>Ano:</strong>
+    {{ filme.ano }}
+  </p>
+
+  <p>
+    <strong>Status:</strong>
+
+    {% if filme.assistido %}
+      Assistido
+    {% else %}
+      Ainda não assistido
+    {% endif %}
+  </p>
+
+  <p>
+    <strong>Nota:</strong>
+
+    {% if filme.nota %}
+      {{ filme.nota }}/5
+    {% else %}
+      Sem nota
+    {% endif %}
+  </p>
+
+  <p>
+    <strong>Adicionado em:</strong>
+    {{ filme.criado_em }}
+  </p>
+
+  <hr>
+
+  <p>
+    <a href="{% url 'editar_filme' filme.pk %}">
+      Editar
+    </a>
+  </p>
+
+  <p>
+    <a href="{% url 'excluir_filme' filme.pk %}">
+      Excluir
+    </a>
+  </p>
+
+  <p>
+    <a href="{% url 'lista_filmes' %}">
+      Voltar para a watchlist
+    </a>
+  </p>
+</body>
+</html>
